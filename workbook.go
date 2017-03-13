@@ -15,11 +15,27 @@ type Workbook struct {
 	CWorkbook *C.struct_lxw_workbook
 }
 
-func NewWorkbook(filename string) *Workbook {
+type WorkbookOptions struct {
+	ConstantMemory int
+	TmpDir         string
+}
+
+func NewWorkbook(filename string, options *WorkbookOptions) *Workbook {
 	cFilename := C.CString(filename)
 	defer C.free(unsafe.Pointer(cFilename))
 
-	cWorkbook := C.new_workbook(cFilename)
+	var cOptions *C.lxw_workbook_options
+	if options != nil {
+		cTmpDir := C.CString(options.TmpDir)
+		defer C.free(unsafe.Pointer(cTmpDir))
+
+		cOptions = &C.lxw_workbook_options{
+			constant_memory: (C.uint8_t)(options.ConstantMemory),
+			tmpdir:          cTmpDir,
+		}
+	}
+
+	cWorkbook := C.new_workbook_opt(cFilename, cOptions)
 
 	workbook := &Workbook{
 		CWorkbook: cWorkbook,

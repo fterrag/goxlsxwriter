@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-    workbook := xlsxwriter.NewWorkbook("example.xlsx")
+    workbook := xlsxwriter.NewWorkbook("example.xlsx", nil)
     worksheet := xlsxwriter.NewWorksheet(workbook, "Sheet 1")
 
     format := xlsxwriter.NewFormat(workbook)
