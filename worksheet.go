@@ -23,13 +23,6 @@ type ImageOptions struct {
 	YScale  float64
 }
 
-// type cImageOptions struct {
-// 	x_offset C.int32_t
-// 	y_offset C.int32_t
-// 	x_scale  C.double
-// 	y_scale  C.double
-// }
-
 func NewWorksheet(workbook *Workbook, sheetName string) *Worksheet {
 	cSheetName := C.CString(sheetName)
 	defer C.free(unsafe.Pointer(cSheetName))
