@@ -6,7 +6,7 @@ import (
 
 /*
 #cgo LDFLAGS: -L. -lxlsxwriter
-#include "include/xlsxwriter.h"
+#include <xlsxwriter.h>
 */
 import "C"
 import "unsafe"
