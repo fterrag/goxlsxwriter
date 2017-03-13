@@ -1,5 +1,9 @@
 package xlsxwriter
 
+import (
+	"errors"
+)
+
 /*
 #cgo LDFLAGS: -L. -lxlsxwriter
 #include "include/xlsxwriter.h"
@@ -34,6 +38,11 @@ func (w *Workbook) AddFormat() *Format {
 	return format
 }
 
-func (w *Workbook) Close() {
-	C.workbook_close(w.CWorkbook)
+func (w *Workbook) Close() error {
+	err := C.workbook_close(w.CWorkbook)
+	if err != C.LXW_NO_ERROR {
+		return errors.New(C.GoString(C.lxw_strerror(err)))
+	}
+
+	return nil
 }
