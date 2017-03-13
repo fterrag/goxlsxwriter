@@ -5,6 +5,8 @@ xlsxwriter provides Go bindings for the [libxlsxwriter](https://github.com/jmcna
 
 ## Sample Use
 
+![](https://cloud.githubusercontent.com/assets/22901700/23842694/75b0b3c2-078c-11e7-8ef6-5ae9489971b6.png)
+
 ```
 package main
 
@@ -34,5 +36,3 @@ func main() {
     workbook.Close()
 }
 ```
-
-[](https://cloud.githubusercontent.com/assets/22901700/23842694/75b0b3c2-078c-11e7-8ef6-5ae9489971b6.png)
