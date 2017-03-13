@@ -38,6 +38,16 @@ type Format struct {
 	CFormat *C.struct_lxw_format
 }
 
+func NewFormat(workbook *Workbook) *Format {
+	cFormat := C.workbook_add_format(workbook.CWorkbook)
+
+	format := &Format{
+		CFormat: cFormat,
+	}
+
+	return format
+}
+
 func (f *Format) SetFontName(fontName string) {
 	cFontName := C.CString(fontName)
 	defer C.free(unsafe.Pointer(cFontName))

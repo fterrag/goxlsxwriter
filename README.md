@@ -18,7 +18,7 @@ func main() {
     workbook := xlsxwriter.NewWorkbook("example.xlsx")
     worksheet := xlsxwriter.NewWorksheet(workbook, "Sheet 1")
 
-    format := workbook.AddFormat()
+    format := xlsxwriter.NewFormat(workbook)
 
     format.SetFontName("Verdana")
     format.SetFontSize(8)

@@ -28,16 +28,6 @@ func NewWorkbook(filename string) *Workbook {
 	return workbook
 }
 
-func (w *Workbook) AddFormat() *Format {
-	cFormat := C.workbook_add_format(w.CWorkbook)
-
-	format := &Format{
-		CFormat: cFormat,
-	}
-
-	return format
-}
-
 func (w *Workbook) Close() error {
 	err := C.workbook_close(w.CWorkbook)
 	if err != C.LXW_NO_ERROR {
