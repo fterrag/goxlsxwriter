@@ -4,9 +4,9 @@ xlsxwriter
 xlsxwriter provides Go bindings for the [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter) C library.
 
 ## Todo
-- [] Tests
-- [] Documentation
-- [] Expand libxlsxwriter API coverage
+- [ ] Tests
+- [ ] Documentation
+- [ ] Expand libxlsxwriter API coverage
 
 ## Sample Use
 
