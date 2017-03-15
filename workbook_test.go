@@ -27,13 +27,15 @@ func tempFileName(prefix string, suffix string) string {
 func CompareXlsxFiles(t *testing.T, expectedPath string, generatedPath string) {
 	code := fmt.Sprintf("import sys; sys.path.append('./resources'); import helper_functions; print helper_functions._compare_xlsx_files('%s', '%s', [], [])", generatedPath, expectedPath)
 
-	cmd := exec.Command("python", "-c", code)
+	cmd := exec.Command("python", "-B", "-c", code)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if string(out) != "('Ok', 'Ok')\n" {
-		t.Fatalf("%s and %s are not identical", expectedPath, generatedPath)
+	outStr := string(out)
+
+	if outStr != "('Ok', 'Ok')\n" {
+		t.Fatalf("%s and %s are not identical: %s", expectedPath, generatedPath, outStr)
 	}
 }
