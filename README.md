@@ -3,7 +3,21 @@ xlsxwriter
 
 xlsxwriter provides Go bindings for the [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter) C library.
 
+## Install
+
+xlsxwriter requires the libxslxwriter library to be installed. To build from source via Git:
+
+```
+$ git clone https://github.com/jmcnamara/libxlsxwriter.git
+$ cd libxlsxwriter
+$ make
+$ make install
+```
+
+Visit [http://libxlsxwriter.github.io/getting_started.html](http://libxlsxwriter.github.io/getting_started.html) for more information on installing libxlsxwriter.
+
 ## Todo
+
 - [ ] Increase test coverage
 - [ ] Documentation
 - [ ] Expand libxlsxwriter API coverage
