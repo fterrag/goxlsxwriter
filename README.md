@@ -41,3 +41,10 @@ func main() {
     workbook.Close()
 }
 ```
+
+## Contributing
+
+* Submit a PR (tests and documentation included)
+* Add or improve documentation
+* Report issues
+* Suggest new features or enhancements
