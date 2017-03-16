@@ -1,0 +1,12 @@
+language: go
+
+go:
+  - 1.6
+  - 1.7
+  - 1.8
+
+before_install:
+  - git clone https://github.com/jmcnamara/libxlsxwriter.git && cd libxlsxwriter && make && sudo make install && cd .. && rm -rf libxlsxwriter
+
+script:
+  go test -v
