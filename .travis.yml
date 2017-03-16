@@ -6,7 +6,7 @@ go:
   - 1.8
 
 before_install:
-  - git clone https://github.com/jmcnamara/libxlsxwriter.git && cd libxlsxwriter && make && make install
+  - git clone https://github.com/jmcnamara/libxlsxwriter.git && cd libxlsxwriter && make && sudo make install
 
 script:
   go test -v
