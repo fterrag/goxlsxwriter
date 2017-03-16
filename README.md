@@ -1,6 +1,8 @@
 xlsxwriter
 ==========
 
+[![Build Status](https://travis-ci.org/fterrag/xlsxwriter.svg?branch=master)](https://travis-ci.org/fterrag/xlsxwriter)
+
 xlsxwriter provides Go bindings for the [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter) C library.
 
 ## Install
