@@ -6,7 +6,8 @@ go:
   - 1.8
 
 before_install:
+  - go get github.com/mattn/goveralls
   - git clone https://github.com/jmcnamara/libxlsxwriter.git && cd libxlsxwriter && make && sudo make install && cd .. && rm -rf libxlsxwriter
 
 script:
-  go test -v
+  - $HOME/gopath/bin/goveralls -service=travis-ci
