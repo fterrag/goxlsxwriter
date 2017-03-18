@@ -1,27 +1,26 @@
 package xlsxwriter
 
 import (
-	"encoding/hex"
 	"fmt"
-	"math/rand"
-	"os"
+	"io/ioutil"
 	"os/exec"
-	"path/filepath"
 	"testing"
 )
 
 func MakeTestWorkbook() (*Workbook, string) {
-	filename := tempFileName("xlsxwriter", ".xlsx")
+	filename := tempFile("xlsxwriter")
 	workbook := NewWorkbook(filename, nil)
 
 	return workbook, filename
 }
 
-func tempFileName(prefix string, suffix string) string {
-	randBytes := make([]byte, 16)
-	rand.Read(randBytes)
+func tempFile(prefix string) string {
+	tempFile, err := ioutil.TempFile("", prefix)
+	if err != nil {
+		panic(err)
+	}
 
-	return filepath.Join(os.TempDir(), prefix+hex.EncodeToString(randBytes)+suffix)
+	return tempFile.Name()
 }
 
 func CompareXlsxFiles(t *testing.T, expectedPath string, generatedPath string) {
