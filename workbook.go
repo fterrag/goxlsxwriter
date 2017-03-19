@@ -11,15 +11,18 @@ import (
 import "C"
 import "unsafe"
 
+// Workbook represents an Excel workbook.
 type Workbook struct {
 	CWorkbook *C.struct_lxw_workbook
 }
 
+// WorkbookOptions contains options to be set when creating a new Workbook.
 type WorkbookOptions struct {
 	ConstantMemory int
 	TmpDir         string
 }
 
+// NewWorkbook create and returns a new instance of Workbook.
 func NewWorkbook(filename string, options *WorkbookOptions) *Workbook {
 	cFilename := C.CString(filename)
 	defer C.free(unsafe.Pointer(cFilename))
@@ -44,6 +47,7 @@ func NewWorkbook(filename string, options *WorkbookOptions) *Workbook {
 	return workbook
 }
 
+// Close closes the workbook and writes the XLSX file to disk.
 func (w *Workbook) Close() error {
 	err := C.workbook_close(w.CWorkbook)
 	if err != C.LXW_NO_ERROR {

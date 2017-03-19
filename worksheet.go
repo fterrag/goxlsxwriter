@@ -11,11 +11,13 @@ import (
 import "C"
 import "unsafe"
 
+// Worksheet represents an Excel worksheet.
 type Worksheet struct {
 	CWorksheet *C.struct_lxw_worksheet
 	Workbook   *Workbook
 }
 
+// ImageOptions contains options to be set when inserting an image into a worksheet.
 type ImageOptions struct {
 	XOffset int
 	YOffset int
@@ -23,6 +25,7 @@ type ImageOptions struct {
 	YScale  float64
 }
 
+// NewWorksheet creates and returns a new instance of Worksheet.
 func NewWorksheet(workbook *Workbook, sheetName string) *Worksheet {
 	cSheetName := C.CString(sheetName)
 	defer C.free(unsafe.Pointer(cSheetName))
@@ -37,6 +40,7 @@ func NewWorksheet(workbook *Workbook, sheetName string) *Worksheet {
 	return worksheet
 }
 
+// WriteString writes a row at the specified row and column and applies an optional format.
 func (w *Worksheet) WriteString(row int, col int, value string, format *Format) error {
 	cValue := C.CString(value)
 	defer C.free(unsafe.Pointer(cValue))
@@ -57,6 +61,7 @@ func (w *Worksheet) WriteString(row int, col int, value string, format *Format) 
 	return nil
 }
 
+// InsertImage inserts an image at the specified row and column and applies options.
 func (w *Worksheet) InsertImage(row int, col int, filename string, options *ImageOptions) error {
 	cRow := (C.lxw_row_t)(row)
 	cCol := (C.lxw_col_t)(col)
