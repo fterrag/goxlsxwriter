@@ -1,4 +1,4 @@
-package xlsxwriter
+package goxlsxwriter
 
 import (
 	"os"

@@ -1,4 +1,4 @@
-package xlsxwriter
+package goxlsxwriter
 
 /*
 #cgo LDFLAGS: -L. -lxlsxwriter
