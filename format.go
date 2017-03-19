@@ -97,18 +97,18 @@ func (f *Format) SetPattern(pattern int) {
 	C.format_set_pattern(f.CFormat, cPattern)
 }
 
-// SetBackground sets the background color.
+// SetBackgroundColor sets the background color.
 func (f *Format) SetBackgroundColor(color int) {
 	cColor := (C.lxw_color_t)(color)
 
 	C.format_set_bg_color(f.CFormat, cColor)
 }
 
-// SetNumberFormat sets the numerical format.
+// SetNumericalFormat sets the numerical format.
 // It controls whether a number is displayed as an integer,
 // a floating point number, a date, a currency value or some other
 // user defined format (e.g., "d mmm yyyy").
-func (f *Format) SetNumbericaFormat(numberFormat string) {
+func (f *Format) SetNumericalFormat(numberFormat string) {
 	cNumberFormat := C.CString(numberFormat)
 	defer C.free(unsafe.Pointer(cNumberFormat))
 
