@@ -40,7 +40,7 @@ func NewWorksheet(workbook *Workbook, sheetName string) *Worksheet {
 	return worksheet
 }
 
-// WriteString writes a row at the specified row and column and applies an optional format.
+// WriteString writes a string value at the specified row and column and applies an optional format.
 func (w *Worksheet) WriteString(row int, col int, value string, format *Format) error {
 	cValue := C.CString(value)
 	defer C.free(unsafe.Pointer(cValue))
@@ -54,6 +54,25 @@ func (w *Worksheet) WriteString(row int, col int, value string, format *Format) 
 	}
 
 	err := C.worksheet_write_string(w.CWorksheet, cRow, cCol, cValue, cFormat)
+	if err != C.LXW_NO_ERROR {
+		return errors.New(C.GoString(C.lxw_strerror(err)))
+	}
+
+	return nil
+}
+
+// WriteFloat writes a float value at the specified row and column and applies an optional format.
+func (w *Worksheet) WriteFloat(row int, col int, value float64, format *Format) error {
+	cRow := (C.lxw_row_t)(row)
+	cCol := (C.lxw_col_t)(col)
+	cValue := (C.double)(value)
+
+	var cFormat *C.struct_lxw_format
+	if format != nil {
+		cFormat = format.CFormat
+	}
+
+	err := C.worksheet_write_number(w.CWorksheet, cRow, cCol, cValue, cFormat)
 	if err != C.LXW_NO_ERROR {
 		return errors.New(C.GoString(C.lxw_strerror(err)))
 	}
