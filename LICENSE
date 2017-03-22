@@ -1,4 +1,4 @@
-xlsxwriter is released under a FreeBSD license:
+goxlsxwriter is released under a FreeBSD license:
 
     Copyright 2017, Frank Terragna
     All rights reserved.
@@ -29,7 +29,7 @@ xlsxwriter is released under a FreeBSD license:
     those of the authors and should not be interpreted as representing
     official policies, either expressed or implied, of the FreeBSD Project.
 
-xlsxwriter is a binding to the C library `libxlsxwriter` which has the following license:
+goxlsxwriter is a binding to the C library `libxlsxwriter` which has the following license:
 
     Copyright 2014-2017, John McNamara <jmcnamara@cpan.org>
     All rights reserved.

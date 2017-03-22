@@ -1,4 +1,4 @@
-package xlsxwriter
+package goxlsxwriter
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 )
 
 func MakeTestWorkbook() (*Workbook, string) {
-	filename := tempFile("xlsxwriter")
+	filename := tempFile("goxlsxwriter")
 	workbook := NewWorkbook(filename, nil)
 
 	return workbook, filename

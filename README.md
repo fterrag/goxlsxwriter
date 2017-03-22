@@ -1,13 +1,13 @@
-xlsxwriter
-==========
+goxlsxwriter
+============
 
 [![Build Status](https://travis-ci.org/fterrag/xlsxwriter.svg?branch=master)](https://travis-ci.org/fterrag/xlsxwriter) [![Go Report Card](https://goreportcard.com/badge/github.com/fterrag/xlsxwriter)](https://goreportcard.com/report/github.com/fterrag/xlsxwriter) [![Coverage Status](https://coveralls.io/repos/github/fterrag/xlsxwriter/badge.svg)](https://coveralls.io/github/fterrag/xlsxwriter)
 
-xlsxwriter provides Go bindings for the [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter) C library.
+goxlsxwriter provides Go bindings for the [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter) C library.
 
 ## Install
 
-xlsxwriter requires the libxslxwriter library to be installed. To build from source via Git:
+goxlsxwriter requires the libxslxwriter library to be installed. To build from source via Git:
 
 ```
 $ git clone https://github.com/jmcnamara/libxlsxwriter.git
@@ -32,14 +32,14 @@ Visit [http://libxlsxwriter.github.io/getting_started.html](http://libxlsxwriter
 package main
 
 import (
-    "github.com/fterrag/xlsxwriter"
+    "github.com/fterrag/goxlsxwriter"
 )
 
 func main() {
-    workbook := xlsxwriter.NewWorkbook("example.xlsx", nil)
-    worksheet := xlsxwriter.NewWorksheet(workbook, "Sheet 1")
+    workbook := goxlsxwriter.NewWorkbook("example.xlsx", nil)
+    worksheet := goxlsxwriter.NewWorksheet(workbook, "Sheet 1")
 
-    format := xlsxwriter.NewFormat(workbook)
+    format := goxlsxwriter.NewFormat(workbook)
 
     format.SetFontName("Verdana")
     format.SetFontSize(8)
@@ -48,7 +48,7 @@ func main() {
     worksheet.WriteString(0, 0, "Hello from A1!", format)
     worksheet.WriteString(4, 1, "This cell is B5", nil)
 
-    options := &xlsxwriter.ImageOptions{
+    options := &goxlsxwriter.ImageOptions{
         XScale: 0.5,
         YScale: 0.5,
     }
