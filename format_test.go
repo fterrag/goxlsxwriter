@@ -88,6 +88,28 @@ func TestSetBoldItalicUnderline(t *testing.T) {
 	CompareXlsxFiles(t, expectedPath, generatedPath)
 }
 
+func TestSetPattern(t *testing.T) {
+	expectedPath := "resources/xlsx/SetPattern.xlsx"
+
+	workbook, generatedPath := MakeTestWorkbook()
+	defer os.Remove(generatedPath)
+
+	worksheet := NewWorksheet(workbook, "Sheet 1")
+
+	format := NewFormat(workbook)
+	format.SetPattern(PATTERN_SOLID)
+
+	format2 := NewFormat(workbook)
+	format2.SetPattern(PATTERN_GRAY_125)
+
+	worksheet.WriteString(0, 0, "PATTERN_SOLID", format)
+	worksheet.WriteString(1, 0, "PATTERN_GRAY_125", format2)
+
+	workbook.Close()
+
+	CompareXlsxFiles(t, expectedPath, generatedPath)
+}
+
 func TestSetBackgroundColor(t *testing.T) {
 	expectedPath := "resources/xlsx/SetBackgroundColor.xlsx"
 
@@ -101,6 +123,24 @@ func TestSetBackgroundColor(t *testing.T) {
 
 	worksheet.WriteString(0, 0, "Hello", format)
 	worksheet.WriteString(1, 0, "World!", nil)
+
+	workbook.Close()
+
+	CompareXlsxFiles(t, expectedPath, generatedPath)
+}
+
+func TestSetNumericalFormat(t *testing.T) {
+	expectedPath := "resources/xlsx/SetNumericalFormat.xlsx"
+
+	workbook, generatedPath := MakeTestWorkbook()
+	defer os.Remove(generatedPath)
+
+	worksheet := NewWorksheet(workbook, "Sheet 1")
+
+	format := NewFormat(workbook)
+	format.SetNumericalFormat("0 \"dollars and\" .00 \"cents\"")
+
+	worksheet.WriteFloat(0, 0, 5.50, format)
 
 	workbook.Close()
 

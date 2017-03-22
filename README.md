@@ -1,7 +1,7 @@
 goxlsxwriter
 ============
 
-[![Build Status](https://travis-ci.org/fterrag/goxlsxwriter.svg?branch=master)](https://travis-ci.org/fterrag/goxlsxwriter) [![Go Report Card](https://goreportcard.com/badge/github.com/fterrag/goxlsxwriter)](https://goreportcard.com/report/github.com/fterrag/goxlsxwriter) [![Coverage Status](https://coveralls.io/repos/github/fterrag/goxlsxwriter/badge.svg?branch=goveralls)](https://coveralls.io/github/fterrag/goxlsxwriter?branch=goveralls)
+[![Build Status](https://travis-ci.org/fterrag/xlsxwriter.svg?branch=master)](https://travis-ci.org/fterrag/xlsxwriter) [![Go Report Card](https://goreportcard.com/badge/github.com/fterrag/xlsxwriter)](https://goreportcard.com/report/github.com/fterrag/xlsxwriter) [![Coverage Status](https://coveralls.io/repos/github/fterrag/xlsxwriter/badge.svg)](https://coveralls.io/github/fterrag/xlsxwriter)
 
 goxlsxwriter provides Go bindings for the [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter) C library.
 
