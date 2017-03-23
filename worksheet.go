@@ -80,6 +80,46 @@ func (w *Worksheet) WriteFloat(row int, col int, value float64, format *Format) 
 	return nil
 }
 
+// WriteInt writes an integer value at the specified row and column and applies an optional format.
+func (w *Worksheet) WriteInt(row int, col int, value int, format *Format) error {
+	cRow := (C.lxw_row_t)(row)
+	cCol := (C.lxw_col_t)(col)
+	cValue := (C.double)(value)
+
+	var cFormat *C.struct_lxw_format
+	if format != nil {
+		cFormat = format.CFormat
+	}
+
+	err := C.worksheet_write_number(w.CWorksheet, cRow, cCol, cValue, cFormat)
+	if err != C.LXW_NO_ERROR {
+		return errors.New(C.GoString(C.lxw_strerror(err)))
+	}
+
+	return nil
+}
+
+// WriteFormula writes a formula value at the specified row and column and applies an optional format.
+func (w *Worksheet) WriteFormula(row int, col int, formula string, format *Format) error {
+	cValue := C.CString(formula)
+	defer C.free(unsafe.Pointer(cValue))
+
+	cRow := (C.lxw_row_t)(row)
+	cCol := (C.lxw_col_t)(col)
+
+	var cFormat *C.struct_lxw_format
+	if format != nil {
+		cFormat = format.CFormat
+	}
+
+	err := C.worksheet_write_formula(w.CWorksheet, cRow, cCol, cValue, cFormat)
+	if err != C.LXW_NO_ERROR {
+		return errors.New(C.GoString(C.lxw_strerror(err)))
+	}
+
+	return nil
+}
+
 // InsertImage inserts an image at the specified row and column and applies options.
 func (w *Worksheet) InsertImage(row int, col int, filename string, options *ImageOptions) error {
 	cRow := (C.lxw_row_t)(row)
