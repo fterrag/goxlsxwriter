@@ -17,7 +17,8 @@ type Worksheet struct {
 	Workbook   *Workbook
 }
 
-// ImageOptions contains options to be set when inserting an image into a worksheet.
+// ImageOptions contains options to be set when inserting an image into a
+// worksheet.
 type ImageOptions struct {
 	XOffset int
 	YOffset int
@@ -40,7 +41,8 @@ func NewWorksheet(workbook *Workbook, sheetName string) *Worksheet {
 	return worksheet
 }
 
-// WriteString writes a string value at the specified row and column and applies an optional format.
+// WriteString writes a string value at the specified row and column and applies
+// an optional format.
 func (w *Worksheet) WriteString(row int, col int, value string, format *Format) error {
 	cValue := C.CString(value)
 	defer C.free(unsafe.Pointer(cValue))
@@ -61,7 +63,8 @@ func (w *Worksheet) WriteString(row int, col int, value string, format *Format) 
 	return nil
 }
 
-// WriteFloat writes a float value at the specified row and column and applies an optional format.
+// WriteFloat writes a float64 value at the specified row and column and applies
+// an optional format.
 func (w *Worksheet) WriteFloat(row int, col int, value float64, format *Format) error {
 	cRow := (C.lxw_row_t)(row)
 	cCol := (C.lxw_col_t)(col)
@@ -80,7 +83,8 @@ func (w *Worksheet) WriteFloat(row int, col int, value float64, format *Format) 
 	return nil
 }
 
-// WriteInt writes an integer value at the specified row and column and applies an optional format.
+// WriteInt writes an integer value at the specified row and column and applies
+// an optional format.
 func (w *Worksheet) WriteInt(row int, col int, value int, format *Format) error {
 	cRow := (C.lxw_row_t)(row)
 	cCol := (C.lxw_col_t)(col)
@@ -99,7 +103,8 @@ func (w *Worksheet) WriteInt(row int, col int, value int, format *Format) error 
 	return nil
 }
 
-// WriteFormula writes a formula value at the specified row and column and applies an optional format.
+// WriteFormula writes a formula value at the specified row and column and
+// applies an optional format.
 func (w *Worksheet) WriteFormula(row int, col int, formula string, format *Format) error {
 	cValue := C.CString(formula)
 	defer C.free(unsafe.Pointer(cValue))
@@ -120,7 +125,91 @@ func (w *Worksheet) WriteFormula(row int, col int, formula string, format *Forma
 	return nil
 }
 
-// InsertImage inserts an image at the specified row and column and applies options.
+// WriteUrl writes a URL and a display string at the specified row and column
+// and applies an optional format to the display string. If the specified
+// display string is empty, the URL will be used.
+func (w *Worksheet) WriteUrl(row int, col int, url string, display string, format *Format) error {
+	cUrl := C.CString(url)
+	defer C.free(unsafe.Pointer(cUrl))
+
+	cDisplay := C.CString(display)
+	defer C.free(unsafe.Pointer(cDisplay))
+
+	cRow := (C.lxw_row_t)(row)
+	cCol := (C.lxw_col_t)(col)
+
+	var cFormat *C.struct_lxw_format
+	if format != nil {
+		cFormat = format.CFormat
+	}
+
+	err := C.worksheet_write_url(w.CWorksheet, cRow, cCol, cUrl, cFormat)
+	if err != C.LXW_NO_ERROR {
+		return errors.New(C.GoString(C.lxw_strerror(err)))
+	}
+
+	// If the display string is not empty, write it to the same row and
+	// column as the URL.
+	if len(display) > 0 {
+		err := C.worksheet_write_string(w.CWorksheet, cRow, cCol, cDisplay, nil)
+		if err != C.LXW_NO_ERROR {
+			return errors.New(C.GoString(C.lxw_strerror(err)))
+		}
+	}
+
+	return nil
+}
+
+// WriteBool writes a boolean value at the specified row and column and
+// applies an optional format.
+func (w *Worksheet) WriteBool(row int, col int, value bool, format *Format) error {
+	cRow := (C.lxw_row_t)(row)
+	cCol := (C.lxw_col_t)(col)
+
+	var cFormat *C.struct_lxw_format
+	if format != nil {
+		cFormat = format.CFormat
+	}
+
+	// Get the int value from the specified boolean.
+	var intValue int
+	if value {
+		intValue = 1
+	}
+
+	cInt := (C.int)(intValue)
+
+	err := C.worksheet_write_boolean(w.CWorksheet, cRow, cCol, cInt, cFormat)
+	if err != C.LXW_NO_ERROR {
+		return errors.New(C.GoString(C.lxw_strerror(err)))
+	}
+
+	return nil
+}
+
+// WriteBlank writes a "blank" cell at the specified row and column and
+// applies an optional format. Excel differentiates between an empty cell
+// and a blank cell. An empty cell is a cell which doesn't contain data or
+// formatting. A blank cell doesn't contain data but does contain formatting.
+func (w *Worksheet) WriteBlank(row int, col int, format *Format) error {
+	cRow := (C.lxw_row_t)(row)
+	cCol := (C.lxw_col_t)(col)
+
+	var cFormat *C.struct_lxw_format
+	if format != nil {
+		cFormat = format.CFormat
+	}
+
+	err := C.worksheet_write_blank(w.CWorksheet, cRow, cCol, cFormat)
+	if err != C.LXW_NO_ERROR {
+		return errors.New(C.GoString(C.lxw_strerror(err)))
+	}
+
+	return nil
+}
+
+// InsertImage inserts an image at the specified row and column and applies
+// options.
 func (w *Worksheet) InsertImage(row int, col int, filename string, options *ImageOptions) error {
 	cRow := (C.lxw_row_t)(row)
 	cCol := (C.lxw_col_t)(col)

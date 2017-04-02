@@ -1,7 +1,6 @@
 package goxlsxwriter
 
 import (
-	// "fmt"
 	"os"
 	"testing"
 )
@@ -54,6 +53,85 @@ func TestWriteFormula(t *testing.T) {
 	worksheet.WriteInt(2, 0, 3, nil)
 
 	worksheet.WriteFormula(3, 0, "=SUM(A1:A3)", nil)
+
+	workbook.Close()
+
+	CompareXlsxFiles(t, expectedPath, generatedPath)
+}
+
+func TestWriteUrl(t *testing.T) {
+	expectedPath := "resources/xlsx/WriteUrl.xlsx"
+
+	workbook, generatedPath := MakeTestWorkbook()
+	defer os.Remove(generatedPath)
+
+	worksheet := NewWorksheet(workbook, "Sheet 1")
+
+	row := 1
+	col := 4
+	url := "https://www.google.com"
+	display := "Google"
+	worksheet.WriteUrl(row, col, url, display, nil)
+
+	row = 4
+	col = 1
+	url = "https://www.github.com"
+	display = ""
+	format := NewFormat(workbook)
+	format.SetFontName("Verdana")
+	worksheet.WriteUrl(row, col, url, display, format)
+
+	workbook.Close()
+
+	CompareXlsxFiles(t, expectedPath, generatedPath)
+}
+
+func TestWriteBool(t *testing.T) {
+	expectedPath := "resources/xlsx/WriteBool.xlsx"
+
+	workbook, generatedPath := MakeTestWorkbook()
+	defer os.Remove(generatedPath)
+
+	worksheet := NewWorksheet(workbook, "Sheet 1")
+
+	row := 1
+	col := 1
+	value := true
+	worksheet.WriteBool(row, col, value, nil)
+
+	row = 1
+	col = 2
+	value = false
+	worksheet.WriteBool(row, col, value, nil)
+
+	workbook.Close()
+
+	CompareXlsxFiles(t, expectedPath, generatedPath)
+}
+
+func TestWriteBlank(t *testing.T) {
+	expectedPath := "resources/xlsx/WriteBlank.xlsx"
+
+	workbook, generatedPath := MakeTestWorkbook()
+	defer os.Remove(generatedPath)
+
+	worksheet := NewWorksheet(workbook, "Sheet 1")
+
+	row := 1
+	col := 1
+	value := "Hello"
+	worksheet.WriteString(row, col, value, nil)
+
+	row = 1
+	col = 2
+	format := NewFormat(workbook)
+	format.SetBackgroundColor(0xFBD787)
+	worksheet.WriteBlank(row, col, format)
+
+	row = 1
+	col = 3
+	value = "World!"
+	worksheet.WriteString(row, col, value, nil)
 
 	workbook.Close()
 
