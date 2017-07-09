@@ -18,12 +18,6 @@ $ make install
 
 Visit [http://libxlsxwriter.github.io/getting_started.html](http://libxlsxwriter.github.io/getting_started.html) for more information on installing libxlsxwriter.
 
-## Todo
-
-- [ ] Increase test coverage
-- [ ] Documentation
-- [ ] Expand libxlsxwriter API coverage
-
 ## Sample Use
 
 ![](https://cloud.githubusercontent.com/assets/22901700/23842694/75b0b3c2-078c-11e7-8ef6-5ae9489971b6.png)
@@ -57,6 +51,12 @@ func main() {
     workbook.Close()
 }
 ```
+
+## Todo
+
+- [ ] Increase test coverage
+- [ ] Documentation
+- [ ] Expand libxlsxwriter API coverage
 
 ## Contributing
 
