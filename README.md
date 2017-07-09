@@ -5,6 +5,8 @@ goxlsxwriter
 
 goxlsxwriter provides Go bindings for the [libxlsxwriter](https://github.com/jmcnamara/libxlsxwriter) C library.
 
+![](https://cloud.githubusercontent.com/assets/22901700/23842694/75b0b3c2-078c-11e7-8ef6-5ae9489971b6.png)
+
 ## Install
 
 goxlsxwriter requires the libxslxwriter library to be installed. To build from source via Git:
@@ -19,8 +21,6 @@ $ make install
 Visit [http://libxlsxwriter.github.io/getting_started.html](http://libxlsxwriter.github.io/getting_started.html) for more information on installing libxlsxwriter.
 
 ## Sample Use
-
-![](https://cloud.githubusercontent.com/assets/22901700/23842694/75b0b3c2-078c-11e7-8ef6-5ae9489971b6.png)
 
 ```go
 package main
