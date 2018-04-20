@@ -105,7 +105,7 @@ func (f *Format) SetFontName(fontName string) {
 
 // SetFontSize sets the font size.
 func (f *Format) SetFontSize(size int) {
-	cSize := (C.uint16_t)(size)
+	cSize := (C.double)(size)
 
 	C.format_set_font_size(f.CFormat, cSize)
 }
