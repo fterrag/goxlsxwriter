@@ -18,6 +18,12 @@ $ make
 $ make install
 ```
 
+## macOS via Homebrew
+
+```
+$ brew install libxlsxwriter
+```
+
 Visit [http://libxlsxwriter.github.io/getting_started.html](http://libxlsxwriter.github.io/getting_started.html) for more information on installing libxlsxwriter.
 
 ## Sample Use
@@ -51,12 +57,6 @@ func main() {
     workbook.Close()
 }
 ```
-
-## Todo
-
-- [ ] Increase test coverage
-- [ ] Documentation
-- [ ] Expand libxlsxwriter API coverage
 
 ## Contributing
 

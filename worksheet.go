@@ -2,6 +2,8 @@ package goxlsxwriter
 
 import (
 	"errors"
+	"time"
+	"unsafe"
 )
 
 /*
@@ -9,7 +11,6 @@ import (
 #include <xlsxwriter.h>
 */
 import "C"
-import "unsafe"
 
 // Worksheet represents an Excel worksheet.
 type Worksheet struct {
@@ -26,7 +27,7 @@ type ImageOptions struct {
 	YScale  float64
 }
 
-// NewWorksheet creates and returns a new instance of Worksheet.
+// NewWorksheet creates and returns a new Worksheet.
 func NewWorksheet(workbook *Workbook, sheetName string) *Worksheet {
 	cSheetName := C.CString(sheetName)
 	defer C.free(unsafe.Pointer(cSheetName))
@@ -39,6 +40,46 @@ func NewWorksheet(workbook *Workbook, sheetName string) *Worksheet {
 	}
 
 	return worksheet
+}
+
+// WriteInt writes an integer value at the specified row and column and applies
+// an optional format.
+func (w *Worksheet) WriteInt(row int, col int, value int, format *Format) error {
+	cRow := (C.lxw_row_t)(row)
+	cCol := (C.lxw_col_t)(col)
+	cValue := (C.double)(value)
+
+	var cFormat *C.struct_lxw_format
+	if format != nil {
+		cFormat = format.CFormat
+	}
+
+	err := C.worksheet_write_number(w.CWorksheet, cRow, cCol, cValue, cFormat)
+	if err != C.LXW_NO_ERROR {
+		return errors.New(C.GoString(C.lxw_strerror(err)))
+	}
+
+	return nil
+}
+
+// WriteFloat64 writes a float64 value at the specified row and column and applies
+// an optional format.
+func (w *Worksheet) WriteFloat64(row int, col int, value float64, format *Format) error {
+	cRow := (C.lxw_row_t)(row)
+	cCol := (C.lxw_col_t)(col)
+	cValue := (C.double)(value)
+
+	var cFormat *C.struct_lxw_format
+	if format != nil {
+		cFormat = format.CFormat
+	}
+
+	err := C.worksheet_write_number(w.CWorksheet, cRow, cCol, cValue, cFormat)
+	if err != C.LXW_NO_ERROR {
+		return errors.New(C.GoString(C.lxw_strerror(err)))
+	}
+
+	return nil
 }
 
 // WriteString writes a string value at the specified row and column and applies
@@ -63,46 +104,6 @@ func (w *Worksheet) WriteString(row int, col int, value string, format *Format) 
 	return nil
 }
 
-// WriteFloat writes a float64 value at the specified row and column and applies
-// an optional format.
-func (w *Worksheet) WriteFloat(row int, col int, value float64, format *Format) error {
-	cRow := (C.lxw_row_t)(row)
-	cCol := (C.lxw_col_t)(col)
-	cValue := (C.double)(value)
-
-	var cFormat *C.struct_lxw_format
-	if format != nil {
-		cFormat = format.CFormat
-	}
-
-	err := C.worksheet_write_number(w.CWorksheet, cRow, cCol, cValue, cFormat)
-	if err != C.LXW_NO_ERROR {
-		return errors.New(C.GoString(C.lxw_strerror(err)))
-	}
-
-	return nil
-}
-
-// WriteInt writes an integer value at the specified row and column and applies
-// an optional format.
-func (w *Worksheet) WriteInt(row int, col int, value int, format *Format) error {
-	cRow := (C.lxw_row_t)(row)
-	cCol := (C.lxw_col_t)(col)
-	cValue := (C.double)(value)
-
-	var cFormat *C.struct_lxw_format
-	if format != nil {
-		cFormat = format.CFormat
-	}
-
-	err := C.worksheet_write_number(w.CWorksheet, cRow, cCol, cValue, cFormat)
-	if err != C.LXW_NO_ERROR {
-		return errors.New(C.GoString(C.lxw_strerror(err)))
-	}
-
-	return nil
-}
-
 // WriteFormula writes a formula value at the specified row and column and
 // applies an optional format.
 func (w *Worksheet) WriteFormula(row int, col int, formula string, format *Format) error {
@@ -118,6 +119,34 @@ func (w *Worksheet) WriteFormula(row int, col int, formula string, format *Forma
 	}
 
 	err := C.worksheet_write_formula(w.CWorksheet, cRow, cCol, cValue, cFormat)
+	if err != C.LXW_NO_ERROR {
+		return errors.New(C.GoString(C.lxw_strerror(err)))
+	}
+
+	return nil
+}
+
+// WriteTime writes a time.Time value at the specified row and column and
+// applies an optional format.
+func (w *Worksheet) WriteTime(row int, col int, val time.Time, format *Format) error {
+	cValue := &C.lxw_datetime{
+		year:  C.int(val.Year()),
+		month: C.int(val.Month()),
+		day:   C.int(val.Day()),
+		hour:  C.int(val.Hour()),
+		min:   C.int(val.Minute()),
+		sec:   C.double(val.Second()),
+	}
+
+	cRow := (C.lxw_row_t)(row)
+	cCol := (C.lxw_col_t)(col)
+
+	var cFormat *C.struct_lxw_format
+	if format != nil {
+		cFormat = format.CFormat
+	}
+
+	err := C.worksheet_write_datetime(w.CWorksheet, cRow, cCol, cValue, cFormat)
 	if err != C.LXW_NO_ERROR {
 		return errors.New(C.GoString(C.lxw_strerror(err)))
 	}
@@ -228,6 +257,34 @@ func (w *Worksheet) InsertImage(row int, col int, filename string, options *Imag
 	}
 
 	err := C.worksheet_insert_image_opt(w.CWorksheet, cRow, cCol, cFilename, cOptions)
+	if err != C.LXW_NO_ERROR {
+		return errors.New(C.GoString(C.lxw_strerror(err)))
+	}
+
+	return nil
+}
+
+// InsertChart inserts a chart at the specified row and column and applies
+// options.
+func (w *Worksheet) InsertChart(row int, col int, chart *Chart, options *ImageOptions) error {
+	cRow := (C.lxw_row_t)(row)
+	cCol := (C.lxw_col_t)(col)
+
+	if chart != nil {
+		return errors.New("chart cannot be nil")
+	}
+
+	var cOptions *C.lxw_image_options
+	if options != nil {
+		cOptions = &C.lxw_image_options{
+			x_offset: (C.int32_t)(options.XOffset),
+			y_offset: (C.int32_t)(options.YOffset),
+			x_scale:  (C.double)(options.XScale),
+			y_scale:  (C.double)(options.YScale),
+		}
+	}
+
+	err := C.worksheet_insert_chart_opt(w.CWorksheet, cRow, cCol, chart.CChart, cOptions)
 	if err != C.LXW_NO_ERROR {
 		return errors.New(C.GoString(C.lxw_strerror(err)))
 	}

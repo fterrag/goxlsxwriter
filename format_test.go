@@ -77,7 +77,7 @@ func TestSetBoldItalicUnderline(t *testing.T) {
 	formatItalic.SetItalic()
 
 	formatUnderline := NewFormat(workbook)
-	formatUnderline.SetUnderline(UNDERLINE_SINGLE)
+	formatUnderline.SetUnderline(UnderlineSingle)
 
 	worksheet.WriteString(0, 0, "Bold", formatBold)
 	worksheet.WriteString(1, 1, "Italic", formatItalic)
@@ -97,10 +97,10 @@ func TestSetPattern(t *testing.T) {
 	worksheet := NewWorksheet(workbook, "Sheet 1")
 
 	format := NewFormat(workbook)
-	format.SetPattern(PATTERN_SOLID)
+	format.SetPattern(PatternSolid)
 
 	format2 := NewFormat(workbook)
-	format2.SetPattern(PATTERN_GRAY_125)
+	format2.SetPattern(PatternGray125)
 
 	worksheet.WriteString(0, 0, "PATTERN_SOLID", format)
 	worksheet.WriteString(1, 0, "PATTERN_GRAY_125", format2)
@@ -140,7 +140,7 @@ func TestSetNumericalFormat(t *testing.T) {
 	format := NewFormat(workbook)
 	format.SetNumericalFormat("0 \"dollars and\" .00 \"cents\"")
 
-	worksheet.WriteFloat(0, 0, 5.50, format)
+	worksheet.WriteFloat64(0, 0, 5.50, format)
 
 	workbook.Close()
 

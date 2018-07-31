@@ -32,7 +32,7 @@ func TestWriteFloatInt(t *testing.T) {
 
 	worksheet := NewWorksheet(workbook, "Sheet 1")
 
-	worksheet.WriteFloat(2, 4, 3.14159265358, nil)
+	worksheet.WriteFloat64(2, 4, 3.14159265358, nil)
 	worksheet.WriteInt(6, 7, 200, nil)
 
 	workbook.Close()
@@ -49,7 +49,7 @@ func TestWriteFormula(t *testing.T) {
 	worksheet := NewWorksheet(workbook, "Sheet 1")
 
 	worksheet.WriteInt(0, 0, 1, nil)
-	worksheet.WriteFloat(1, 0, 2.5, nil)
+	worksheet.WriteFloat64(1, 0, 2.5, nil)
 	worksheet.WriteInt(2, 0, 3, nil)
 
 	worksheet.WriteFormula(3, 0, "=SUM(A1:A3)", nil)

@@ -22,7 +22,7 @@ type WorkbookOptions struct {
 	TmpDir         string
 }
 
-// NewWorkbook create and returns a new instance of Workbook.
+// NewWorkbook create and returns a new Workbook.
 func NewWorkbook(filename string, options *WorkbookOptions) *Workbook {
 	cFilename := C.CString(filename)
 	defer C.free(unsafe.Pointer(cFilename))

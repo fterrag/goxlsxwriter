@@ -7,76 +7,80 @@ package goxlsxwriter
 import "C"
 import "unsafe"
 
-// UNDERLINE_* constants are to be used with SetUnderline().
+type FormatUnderline int
+
+// Underline* constants are to be used with SetUnderline().
 const (
 	// Single underline.
-	UNDERLINE_SINGLE int = C.LXW_UNDERLINE_SINGLE
+	UnderlineSingle FormatUnderline = C.LXW_UNDERLINE_SINGLE
 
 	// Double underline.
-	UNDERLINE_DOUBLE int = C.LXW_UNDERLINE_DOUBLE
+	UnderlineDouble FormatUnderline = C.LXW_UNDERLINE_DOUBLE
 
 	// Single accounting underline.
-	UNDERLINE_SINGLE_ACCOUNTING int = C.LXW_UNDERLINE_SINGLE_ACCOUNTING
+	UnderlineSingleAccounting FormatUnderline = C.LXW_UNDERLINE_SINGLE_ACCOUNTING
 
 	// Double accounting line.
-	UNDERLINE_DOUBLE_ACCOUNTING int = C.LXW_UNDERLINE_DOUBLE_ACCOUNTING
+	UndelineDoubleAccounting FormatUnderline = C.LXW_UNDERLINE_DOUBLE_ACCOUNTING
 )
 
-// PATTERN_* constants are to be used with SetPattern().
+type FormatPattern int
+
+// Pattern* constants are to be used with SetPattern().
 const (
 	// Solid.
-	PATTERN_SOLID int = C.LXW_PATTERN_SOLID
+	PatternSolid FormatPattern = C.LXW_PATTERN_SOLID
 
 	// Medium gray.
-	PATTERN_MEDIUM_GRAY int = C.LXW_PATTERN_MEDIUM_GRAY
+	PatternMediumGray FormatPattern = C.LXW_PATTERN_MEDIUM_GRAY
 
 	// Dark gray.
-	PATTERN_DARK_GRAY int = C.LXW_PATTERN_DARK_GRAY
+	PatternDarkGray FormatPattern = C.LXW_PATTERN_DARK_GRAY
 
 	// Light gray.
-	PATTERN_LIGHT_GRAY int = C.LXW_PATTERN_LIGHT_GRAY
+	PatternLightGray FormatPattern = C.LXW_PATTERN_LIGHT_GRAY
 
 	// Dark horizontal line.
-	PATTERN_DARK_HORIZONTAL int = C.LXW_PATTERN_DARK_HORIZONTAL
+	PatternDarkHorizontal FormatPattern = C.LXW_PATTERN_DARK_HORIZONTAL
 
 	// Dark vertical line.
-	PATTERN_DARK_VERTICAL int = C.LXW_PATTERN_DARK_VERTICAL
+	PatternDarkVertical FormatPattern = C.LXW_PATTERN_DARK_VERTICAL
 
 	// Dark diagonal stripe.
-	PATTERN_DARK_DOWN int = C.LXW_PATTERN_DARK_DOWN
+	PatternDarkDown FormatPattern = C.LXW_PATTERN_DARK_DOWN
 
 	// Reverse dark diagonal stripe.
-	PATTERN_DARK_UP int = C.LXW_PATTERN_DARK_UP
+	PatternDarkUp FormatPattern = C.LXW_PATTERN_DARK_UP
 
 	// Dark grid.
-	PATTERN_DARK_GRID int = C.LXW_PATTERN_DARK_GRID
+	PatternDarkGrid FormatPattern = C.LXW_PATTERN_DARK_GRID
 
 	// Dark trellis.
-	PATTERN_DARK_TRELLIS int = C.LXW_PATTERN_DARK_TRELLIS
+	PatternDarkTrellis FormatPattern = C.LXW_PATTERN_DARK_TRELLIS
 
 	// Light horizontal line.
-	PATTERN_LIGHT_HORIZONTAL int = C.LXW_PATTERN_LIGHT_HORIZONTAL
+	PatternLightHorizontal FormatPattern = C.LXW_PATTERN_LIGHT_HORIZONTAL
 
 	// Light vertical line.
-	PATTERN_LIGHT_VERTICAL int = C.LXW_PATTERN_LIGHT_VERTICAL
+	PatternLightVertical FormatPattern = C.LXW_PATTERN_LIGHT_VERTICAL
 
 	// Light diagonal stripe.
-	PATTERN_LIGHT_DOWN int = C.LXW_PATTERN_LIGHT_DOWN
+	PatternLightDown FormatPattern = C.LXW_PATTERN_LIGHT_DOWN
 
 	// Reverse light diagonal stripe.
-	PATTERN_LIGHT_UP int = C.LXW_PATTERN_LIGHT_UP
+	PatternLightUp FormatPattern = C.LXW_PATTERN_LIGHT_UP
 
 	// Light grid.
-	PATTERN_LIGHT_GRID int = C.LXW_PATTERN_LIGHT_GRID
+	PatternLightGrid FormatPattern = C.LXW_PATTERN_LIGHT_GRID
 
 	// Light trellis.
-	PATTERN_LIGHT_TRELLIS int = C.LXW_PATTERN_LIGHT_TRELLIS
+	PatternLightTrellis FormatPattern = C.LXW_PATTERN_LIGHT_TRELLIS
 
 	// 12.5% gray.
-	PATTERN_GRAY_125 int = C.LXW_PATTERN_GRAY_125
+	PatternGray125 FormatPattern = C.LXW_PATTERN_GRAY_125
 
 	// 6.25% gray.
-	PATTERN_GRAY_0625 int = C.LXW_PATTERN_GRAY_0625
+	PatternGray625 FormatPattern = C.LXW_PATTERN_GRAY_0625
 )
 
 // Format represents an Excel style used to apply formatting to cells.
@@ -129,14 +133,14 @@ func (f *Format) SetItalic() {
 
 // SetUnderline sets the font to be underline using the
 // specified UNDERLINE_* style.
-func (f *Format) SetUnderline(style int) {
+func (f *Format) SetUnderline(style FormatUnderline) {
 	cStyle := (C.uint8_t)(style)
 
 	C.format_set_underline(f.CFormat, cStyle)
 }
 
 // SetPattern sets the pattern to the specific PATTERN_* pattern.
-func (f *Format) SetPattern(pattern int) {
+func (f *Format) SetPattern(pattern FormatPattern) {
 	cPattern := (C.uint8_t)(pattern)
 
 	C.format_set_pattern(f.CFormat, cPattern)
